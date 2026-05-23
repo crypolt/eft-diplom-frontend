@@ -6,7 +6,15 @@
       <h1>{{ title }}</h1>
       <p>{{ description }}</p>
       <div class="hero-actions">
-        <RouterLink to="/dashboard" class="cta-button">{{ copy.openDashboard }}</RouterLink>
+        <button
+          v-if="!isAuthenticated"
+          type="button"
+          class="cta-button cta-button-reset"
+          @click="openLoginModal"
+        >
+          {{ copy.openDashboard }}
+        </button>
+        <RouterLink v-else to="/dashboard" class="cta-button">{{ copy.openDashboard }}</RouterLink>
         <RouterLink to="/developers" class="cta-button secondary">{{ copy.docs }}</RouterLink>
       </div>
     </div>
@@ -17,10 +25,14 @@
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
 import { t } from '../../../assets/languages'
+import store from '../../../store'
+import { useLoginModal } from '../../../features/auth/model/loginModal'
 import { usePublicContent } from '../../../features/public/model/usePublicContent'
 
 const { profile } = usePublicContent()
 const copy = t('hero')
+const isAuthenticated = computed(() => store.isAuthenticated.value)
+const { openLoginModal } = useLoginModal()
 
 const title = computed(() => profile.value?.title || copy.fallbackTitle)
 const description = computed(() => profile.value?.description || copy.fallbackDescription)
@@ -96,6 +108,12 @@ const description = computed(() => profile.value?.description || copy.fallbackDe
   color: #2d3c58;
   text-decoration: none;
   font-weight: 700;
+}
+
+.cta-button-reset {
+  border: none;
+  cursor: pointer;
+  font: inherit;
 }
 
 .cta-button.secondary {

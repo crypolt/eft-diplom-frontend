@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <HeaderComponent />
-    <NavbarComponent @open-login="showLoginModal = true" />
+    <NavbarComponent @open-login="openLoginModal" />
 
     <div class="layout" :class="{ 'layout-dashboard': isDashboard }">
       <SidebarComponent v-if="isDashboard" />
@@ -12,14 +12,14 @@
 
     <FooterComponent />
 
-    <ModalComponent v-if="showLoginModal" @close="showLoginModal = false">
-      <LoginPage :show-close="true" @close="showLoginModal = false" />
+    <ModalComponent v-if="isLoginModalOpen" @close="closeLoginModal">
+      <LoginPage :show-close="true" @close="closeLoginModal" />
     </ModalComponent>
   </div>
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { RouterView, useRoute } from 'vue-router'
 import ModalComponent from './components/Common/basic/modal.vue'
 import FooterComponent from './components/Common/main/footer.vue'
@@ -27,10 +27,11 @@ import HeaderComponent from './components/Common/main/header.vue'
 import NavbarComponent from './components/Common/main/navbar.vue'
 import SidebarComponent from './components/Common/main/sidebar.vue'
 import LoginPage from './views/Auth/LoginPage.vue'
+import { useLoginModal } from './features/auth/model/loginModal'
 
 const route = useRoute()
-const showLoginModal = ref(false)
 const isDashboard = computed(() => Boolean(route.meta.requiresAuth))
+const { isLoginModalOpen, openLoginModal, closeLoginModal } = useLoginModal()
 </script>
 
 <style scoped>
