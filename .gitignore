@@ -1,0 +1,25 @@
+.DS_Store
+
+# Dependencies / build output
+node_modules/
+dist/
+build/
+.cache/
+
+# Local config
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# IDE / run configs
+.idea/
+.vscode/
+.run/
+*.iml
+
+# Logs / temp
+*.log
+tmp/
+temp/
+
