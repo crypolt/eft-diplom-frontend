@@ -22,9 +22,6 @@
             <RouterLink to="/dashboard" @click="closeDropdown">
               {{ copy.dashboard }}
             </RouterLink>
-            <RouterLink to="/dashboard/settlements" @click="closeDropdown">
-              {{ copy.settlements }}
-            </RouterLink>
             <a href="#" @click.prevent="handleLogout">{{ copy.logout }}</a>
           </div>
         </div>
